@@ -4,8 +4,11 @@
 **Disciplina:** Fundamentos de Gestão de Projetos  
 **Professor:** Paulo Lisboa  
 **Instituição:** UniFECAF 
+
 **Aluna:** Marcia Regina de Abreu
+
 **RA:** 246330
+
 **Trabalho:** Do Problema ao Produto — Planejamento de um Produto Digital com IA, MVP e Roadmap
 
 ---
