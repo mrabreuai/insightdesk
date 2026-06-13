@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>InsightDesk — Matriz de Riscos</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f7f8fa; padding: 32px; color: #1a1a2e; }
+
+  .header { margin-bottom: 24px; }
+  .header .label { font-size: 11px; font-weight: 700; color: #185FA5; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .header h1 { font-size: 28px; font-weight: 700; color: #1F3864; margin-bottom: 4px; }
+  .header p { font-size: 14px; color: #555; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #555; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Matrix */
+  .matrix-container { display: flex; gap: 0; margin-bottom: 32px; align-items: stretch; }
+  .y-axis-label {
+    writing-mode: vertical-rl; transform: rotate(180deg);
+    font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase;
+    letter-spacing: 0.07em; text-align: center; padding: 0 8px; white-space: nowrap;
+  }
+  .matrix-inner { flex: 1; }
+  .matrix-grid {
+    display: grid;
+    grid-template-columns: 52px repeat(3, 1fr);
+    grid-template-rows: repeat(3, 100px) 32px;
+    gap: 6px;
+  }
+  .row-label {
+    display: flex; align-items: center; justify-content: flex-end;
+    padding-right: 10px; font-size: 12px; font-weight: 700; color: #444;
+  }
+  .col-label {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: #444;
+  }
+  .cell {
+    border-radius: 10px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-start;
+    padding: 8px 6px 6px;
+    gap: 6px;
+  }
+  .cell-action {
+    font-size: 9px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.07em; opacity: 0.75; margin-bottom: 2px;
+  }
+  .cell-red    { background: #FCEBEB; } .cell-red .cell-action    { color: #A32D2D; }
+  .cell-amber  { background: #FAEEDA; } .cell-amber .cell-action  { color: #854F0B; }
+  .cell-yellow { background: #FFFDE7; } .cell-yellow .cell-action { color: #7a6a00; }
+  .cell-green  { background: #EAF3DE; } .cell-green .cell-action  { color: #3B6D11; }
+
+  .dots-row { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
+  .risk-dot {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #fff;
+    border: 2px solid rgba(255,255,255,0.5);
+  }
+
+  .x-axis-label {
+    text-align: center; font-size: 11px; font-weight: 700;
+    color: #555; text-transform: uppercase; letter-spacing: 0.07em;
+    margin-top: 6px; padding-left: 52px;
+  }
+
+  /* Table */
+  .table-label { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; background: #fff; border-radius: 10px; overflow: hidden; border: 1px solid #e2e8f0; }
+  thead { background: #1F3864; }
+  thead th { color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 10px 12px; text-align: left; }
+  tbody td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; vertical-align: top; line-height: 1.5; color: #333; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:nth-child(even) td { background: #fafafa; }
+
+  .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
+  .badge-high   { background: #FCEBEB; color: #A32D2D; }
+  .badge-medium { background: #FAEEDA; color: #854F0B; }
+  .badge-low    { background: #EAF3DE; color: #3B6D11; }
+
+  .num-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+
+  .footer { margin-top: 24px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 11px; color: #aaa; display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="label">Matriz de Riscos · Parte Prática · Fundamentos de Gestão de Projetos · UniFECAF</div>
+  <h1>InsightDesk — Gestão de Riscos</h1>
+  <p>8 riscos identificados · Classificação Probabilidade × Impacto · Metodologia PMI/PMBOK 7ª ed.</p>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#185FA5"></div>R1 Qualidade de dados</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#534AB7"></div>R2 Alucinação IA</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#0F6E56"></div>R3 Baixa adoção</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#993C1D"></div>R4 LGPD</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#993556"></div>R5 Dependência API</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#854F0B"></div>R6 Custo LLM</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#5F5E5A"></div>R7 Concorrência</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#3B6D11"></div>R8 Perda de talento</div>
+</div>
+
+<div class="matrix-container">
+  <div class="y-axis-label">Probabilidade</div>
+  <div class="matrix-inner">
+    <div class="matrix-grid">
+      <!-- Alta -->
+      <div class="row-label">Alta</div>
+      <div class="cell cell-amber"><div class="cell-action">Mitigar</div><div class="dots-row"></div></div>
+      <div class="cell cell-red"><div class="cell-action">Escalar</div><div class="dots-row">
+        <div class="risk-dot" style="background:#185FA5">R1</div>
+        <div class="risk-dot" style="background:#854F0B">R6</div>
+      </div></div>
+      <div class="cell cell-red"><div class="cell-action">Escalar</div><div class="dots-row"></div></div>
+
+      <!-- Média -->
+      <div class="row-label">Média</div>
+      <div class="cell cell-green"><div class="cell-action">Aceitar</div><div class="dots-row"></div></div>
+      <div class="cell cell-amber"><div class="cell-action">Planejar</div><div class="dots-row">
+        <div class="risk-dot" style="background:#993556">R5</div>
+      </div></div>
+      <div class="cell cell-red"><div class="cell-action">Mitigar</div><div class="dots-row">
+        <div class="risk-dot" style="background:#534AB7">R2</div>
+        <div class="risk-dot" style="background:#0F6E56">R3</div>
+      </div></div>
+
+      <!-- Baixa -->
+      <div class="row-label">Baixa</div>
+      <div class="cell cell-green"><div class="cell-action">Registrar</div><div class="dots-row">
+        <div class="risk-dot" style="background:#5F5E5A">R7</div>
+      </div></div>
+      <div class="cell cell-yellow"><div class="cell-action">Observar</div><div class="dots-row"></div></div>
+      <div class="cell cell-amber"><div class="cell-action">Responder</div><div class="dots-row">
+        <div class="risk-dot" style="background:#993C1D">R4</div>
+        <div class="risk-dot" style="background:#3B6D11">R8</div>
+      </div></div>
+
+      <!-- col labels -->
+      <div></div>
+      <div class="col-label">Baixo</div>
+      <div class="col-label">Médio</div>
+      <div class="col-label">Alto</div>
+    </div>
+    <div class="x-axis-label">Impacto</div>
+  </div>
+</div>
+
+<div class="table-label">Detalhamento dos riscos</div>
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Risco</th>
+      <th>Probabilidade</th>
+      <th>Impacto</th>
+      <th>Estratégia de mitigação</th>
+      <th>Responsável</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="num-badge" style="background:#185FA5">1</span></td>
+      <td>Baixa qualidade dos dados de entrada (tickets mal estruturados)</td>
+      <td><span class="badge badge-high">Alta</span></td>
+      <td><span class="badge badge-high">Alto</span></td>
+      <td>Critérios mínimos de qualidade no contrato de onboarding + etapa de limpeza no pipeline de ingestão</td>
+      <td>Tech Lead</td>
+    </tr>
+    <tr>
+      <td><span class="num-badge" style="background:#534AB7">2</span></td>
+      <td>Alucinação da IA (planos de ação incorretos ou inadequados)</td>
+      <td><span class="badge badge-medium">Média</span></td>
+      <td><span class="badge badge-high">Alto</span></td>
+      <td>Revisão humana obrigatória para planos de alto impacto + sistema de feedback contínuo para retreinamento</td>
+      <td>Product Manager</td>
+    </tr>
+    <tr>
+      <td><span class="num-badge" style="background:#0F6E56">3</span></td>
+      <td>Baixa adoção pelos usuários finais (resistência à mudança)</td>
+      <td><span class="badge badge-medium">Média</span></td>
+      <td><span class="badge badge-high">Alto</span></td>
+      <td>Onboarding estruturado com treinamento + champion interno no cliente + medição semanal de adoção</td>
+      <td>Customer Success</td>
+    </tr>
+    <tr>
+      <td><span class="num-badge" style="background:#993C1D">4</span></td>
+      <td>Violação de LGPD (dados pessoais de clientes no pipeline de IA)</td>
+      <td><span class="badge badge-low">Baixa</span></td>
+      <td><span class="badge badge-high">Alto</span></td>
+      <td>Anonimização antes da ingestão + DPO externo + mapeamento de fluxo conforme Art. 7 da LGPD</td>
+      <td>Jurídico / DPO</td>
+    </tr>
+    <tr>
+      <td><span class="num-badge" style="background:#993556">5</span></td>
+      <td>Dependência de API de terceiros (Zendesk/Freshdesk muda termos)</td>
+      <td><span class="badge badge-medium">Média</span></td>
+      <td><span class="badge badge-medium">Médio</span></td>
+      <td>Camada de abstração de integração + conectores para ao menos 3 plataformas distintas desde a fase 1</td>
+      <td>Tech Lead</td>
+    </tr>
+    <tr>
+      <td><span class="num-badge" style="background:#854F0B">6</span></td>
+      <td>Custo de LLM acima do previsto em escala</td>
+      <td><span class="badge badge-high">Alta</span></td>
+      <td><span class="badge badge-medium">Médio</span></td>
+      <td>Limites de processamento por cliente no MVP + cache de respostas + avaliação de modelos open-source</td>
+      <td>CTO / Financeiro</td>
+    </tr>
+    <tr>
+      <td><span class="num-badge" style="background:#5F5E5A">7</span></td>
+      <td>Concorrente lança produto similar antes do Go-to-Market</td>
+      <td><span class="badge badge-low">Baixa</span></td>
+      <td><span class="badge badge-medium">Médio</span></td>
+      <td>Acelerar MVP para máx. 6 semanas + proteger diferencial de UX e integração com plano de ação</td>
+      <td>CEO / PM</td>
+    </tr>
+    <tr>
+      <td><span class="num-badge" style="background:#3B6D11">8</span></td>
+      <td>Perda de membro-chave do time de IA durante o desenvolvimento</td>
+      <td><span class="badge badge-low">Baixa</span></td>
+      <td><span class="badge badge-high">Alto</span></td>
+      <td>Documentação técnica em repositório versionado + conhecimento crítico distribuído entre 2+ devs</td>
+      <td>CTO</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="footer">
+  <span>InsightDesk · Matriz de Riscos · Fundamentos de Gestão de Projetos — UniFECAF</span>
+  <span>Metodologia: PMI/PMBOK 7ª ed. · Probabilidade × Impacto</span>
+</div>
+
+</body>
+</html>

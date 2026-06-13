@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>InsightDesk — Canvas de Visão de Produto</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f7f8fa; padding: 32px; color: #1a1a2e; }
+
+  .header { margin-bottom: 24px; }
+  .header .label { font-size: 11px; font-weight: 700; color: #185FA5; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .header h1 { font-size: 28px; font-weight: 700; color: #1F3864; margin-bottom: 4px; }
+  .header p { font-size: 14px; color: #555; }
+
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 10px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+
+  .block {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    min-height: 140px;
+  }
+  .block-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .block ul { list-style: none; padding: 0; }
+  .block ul li {
+    font-size: 12px;
+    color: #444;
+    padding: 3px 0 3px 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .block ul li::before { content: "–"; position: absolute; left: 0; color: #aaa; }
+
+  .lbl-coral { color: #993C1D; border-left: 3px solid #D85A30; padding-left: 8px; border-radius: 0; }
+  .lbl-purple { color: #534AB7; border-left: 3px solid #7F77DD; padding-left: 8px; border-radius: 0; }
+  .lbl-blue { color: #185FA5; border-left: 3px solid #378ADD; padding-left: 8px; border-radius: 0; }
+  .lbl-teal { color: #0F6E56; border-left: 3px solid #1D9E75; padding-left: 8px; border-radius: 0; }
+  .lbl-amber { color: #854F0B; border-left: 3px solid #BA7517; padding-left: 8px; border-radius: 0; }
+  .lbl-green { color: #3B6D11; border-left: 3px solid #639922; padding-left: 8px; border-radius: 0; }
+  .lbl-pink { color: #993556; border-left: 3px solid #D4537E; padding-left: 8px; border-radius: 0; }
+  .lbl-gray { color: #5F5E5A; border-left: 3px solid #888780; padding-left: 8px; border-radius: 0; }
+
+  .center-block {
+    background: #EEF2FF;
+    border: 2px solid #534AB7;
+    border-radius: 10px;
+    padding: 14px;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 6px;
+  }
+  .center-block .logo { font-size: 22px; font-weight: 700; color: #1F3864; }
+  .center-block .tagline { font-size: 12px; color: #534AB7; line-height: 1.5; max-width: 180px; }
+
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 20px;
+    margin: 2px;
+  }
+  .tag-blue { background: #E6F1FB; color: #185FA5; }
+  .tag-teal { background: #E1F5EE; color: #0F6E56; }
+  .tag-amber { background: #FAEEDA; color: #854F0B; }
+
+  .metric-section { margin-top: 16px; }
+  .metric-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #888; margin-bottom: 10px; }
+  .metric-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+  .metric-val { font-size: 22px; font-weight: 700; }
+  .metric-lbl { font-size: 11px; color: #666; margin-top: 4px; line-height: 1.4; }
+
+  .col-pair { display: flex; flex-direction: column; gap: 10px; }
+
+  .footer {
+    margin-top: 24px;
+    padding-top: 12px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 11px;
+    color: #aaa;
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="label">Lean Canvas — Parte Prática · Fundamentos de Gestão de Projetos · UniFECAF</div>
+  <h1>InsightDesk</h1>
+  <p>Plataforma de insights automáticos para atendimento ao cliente com IA Generativa</p>
+</div>
+
+<div class="grid-3">
+  <div class="block">
+    <div class="block-label lbl-coral">&#9888; Problema</div>
+    <ul>
+      <li>Times afogados em tickets, chats e e-mails sem conseguir priorizar</li>
+      <li>Impossibilidade de identificar temas críticos em escala</li>
+      <li>Planos de ação demoram dias para ser formulados</li>
+      <li>Ausência de visibilidade estratégica sobre saúde do cliente</li>
+    </ul>
+  </div>
+
+  <div class="col-pair">
+    <div class="block">
+      <div class="block-label lbl-purple">&#128161; Solução</div>
+      <ul>
+        <li>IA lê e classifica todas as interações automaticamente</li>
+        <li>Dashboard de urgência com ranking de temas críticos</li>
+        <li>Sugestão de plano de ação por tema em minutos</li>
+      </ul>
+    </div>
+    <div class="block">
+      <div class="block-label lbl-blue">&#11088; Proposta de valor única</div>
+      <ul>
+        <li>Transforma ruído de atendimento em clareza estratégica</li>
+        <li>Redução de até 70% no tempo de identificação de temas críticos</li>
+        <li>Planos de ação em minutos, não em dias</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-label lbl-teal">&#128100; Segmento de clientes</div>
+    <ul>
+      <li>Times de CX e Suporte em empresas médio e grande porte</li>
+      <li>Gerentes e coordenadores de atendimento</li>
+      <li>Analistas de CX sobrecarregados por volume</li>
+      <li>Diretores de operações que precisam de visibilidade estratégica</li>
+    </ul>
+  </div>
+</div>
+
+<div class="grid-3">
+  <div class="block">
+    <div class="block-label lbl-amber">&#128200; Vantagem injusta</div>
+    <ul>
+      <li>Combinação única: análise + plano de ação (não só dashboard)</li>
+      <li>Onboarding rápido via API (Zendesk / Freshdesk)</li>
+      <li>Modelo treinado com dados reais do cliente (personalização)</li>
+      <li>Explicabilidade nos rankings — usuário entende o "porquê"</li>
+    </ul>
+  </div>
+
+  <div class="center-block">
+    <div class="logo">InsightDesk</div>
+    <div class="tagline">De dados de atendimento a decisões estratégicas com IA Generativa</div>
+    <div style="margin-top:10px;">
+      <span class="tag tag-blue">IA Generativa</span>
+      <span class="tag tag-teal">SaaS B2B</span>
+      <span class="tag tag-amber">MVP em 6 semanas</span>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-label lbl-green">&#128227; Canais</div>
+    <ul>
+      <li>Venda direta B2B via equipe comercial especializada</li>
+      <li>Parcerias com consultorias de CX e atendimento</li>
+      <li>Trial gratuito de 14 dias (produto-led growth)</li>
+      <li>Conteúdo técnico (blog, LinkedIn) para geração de inbound</li>
+    </ul>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="block">
+    <div class="block-label lbl-pink">&#128176; Estrutura de custos</div>
+    <ul>
+      <li>Infraestrutura cloud (AWS / GCP) e consumo de API de LLM</li>
+      <li>Time de engenharia: 3 devs + 1 data scientist no MVP</li>
+      <li>Customer Success e time comercial B2B</li>
+      <li>Custo de onboarding e treinamento de modelo por cliente</li>
+      <li>Licenças de ferramentas (Zendesk sandbox, ambientes de homologação)</li>
+    </ul>
+  </div>
+  <div class="block">
+    <div class="block-label lbl-gray">&#128181; Fontes de receita</div>
+    <ul>
+      <li>Assinatura mensal SaaS por volume de tickets processados</li>
+      <li>Plano Starter · Plano Pro · Enterprise (contratos anuais)</li>
+      <li>Upsell de integrações adicionais e relatórios customizados</li>
+      <li>Serviço de implantação e treinamento para clientes enterprise</li>
+      <li>Revenue share com parceiros de implementação</li>
+    </ul>
+  </div>
+</div>
+
+<div class="metric-section">
+  <div class="metric-title">Métricas-chave do produto</div>
+  <div class="grid-4">
+    <div class="metric-card">
+      <div class="metric-val" style="color:#185FA5;">&gt; 80%</div>
+      <div class="metric-lbl">Acurácia mínima de classificação no MVP</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val" style="color:#0F6E56;">&gt; 60%</div>
+      <div class="metric-lbl">Taxa de adoção semanal pelos usuários-alvo</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val" style="color:#854F0B;">NPS ≥ 30</div>
+      <div class="metric-lbl">Satisfação do cliente piloto após 30 dias</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-val" style="color:#993C1D;">&lt; 5%</div>
+      <div class="metric-lbl">Churn mensal na fase de expansão</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <span>InsightDesk · Canvas de Visão de Produto · Fundamentos de Gestão de Projetos — UniFECAF</span>
+  <span>Baseado em Lean Canvas (Ash Maurya) · PMI · Scrum Guide 2020</span>
+</div>
+
+</body>
+</html>
