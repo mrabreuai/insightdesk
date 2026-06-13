@@ -119,4 +119,4 @@ insightdesk/
 
 ---
 
-*InsightDesk · Fundamentos de Gestão de Projetos · UniFECAF · 2025*
+*InsightDesk · Fundamentos de Gestão de Projetos · UniFECAF · 2026*
